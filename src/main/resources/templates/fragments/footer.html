@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<footer th:fragment="footer" class="page-footer py-4 border-top bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="mb-0">Connect with us on:</p>
+                <div class="social-icons mt-2">
+                    <a class="me-3 text-dark" th:href="@{${socialLinks?.facebookUrl ?: '#'}}">
+                        <i class="icon ion-social-facebook"></i>
+                    </a>
+                    <a class="me-3 text-dark" th:href="@{${socialLinks?.instagramUrl ?: '#'}}">
+                        <i class="icon ion-social-instagram-outline"></i>
+                    </a>
+                    <a class="me-3 text-dark" th:href="@{${socialLinks?.twitterUrl ?: '#'}}">
+                        <i class="icon ion-social-twitter"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0 text-muted">&copy; 2024 Divyaam Private Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

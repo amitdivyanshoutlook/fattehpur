@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{student-management}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${student.id} ? 'Edit Student' : 'New Student'"></title>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            background: linear-gradient(to right bottom, #ffffff, #f8f9fa);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #0d6efd, #0dcaf0);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #0d6efd, #0dcaf0);
+            border: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #6c757d, #495057);
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 10px;
+            }
+
+            .card-header {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .form-control, .form-select {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="form-container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0" th:text="${student.id} ? 'Edit Student' : 'New Student'"></h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/students/save}" th:object="${student}" method="post" class="needs-validation" novalidate>
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
+                                       required placeholder="Enter first name">
+                                <div class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
+                                       required placeholder="Enter last name">
+                                <div class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="fatherName" class="form-label">Father's Name</label>
+                                <input type="text" class="form-control" id="fatherName" th:field="*{fatherName}"
+                                       required placeholder="Enter father's name">
+                                <div class="text-danger" th:if="${#fields.hasErrors('fatherName')}" th:errors="*{fatherName}"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="villageName" class="form-label">Village Name</label>
+                                <input type="text" class="form-control" id="villageName" th:field="*{villageName}"
+                                       required placeholder="Enter village name">
+                                <div class="text-danger" th:if="${#fields.hasErrors('villageName')}" th:errors="*{villageName}"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="studentClass" class="form-label">Class</label>
+                                <select class="form-select" id="studentClass" th:field="*{studentClass}" required>
+                                    <option value="">Select Class</option>
+                                    <option value="Nursery">Nursery</option>
+                                    <option value="LKG">LKG</option>
+                                    <option value="UKG">UKG</option>
+                                    <option value="1">Class 1</option>
+                                    <option value="2">Class 2</option>
+                                    <option value="3">Class 3</option>
+                                    <option value="4">Class 4</option>
+                                    <option value="5">Class 5</option>
+                                    <option value="6">Class 6</option>
+                                    <option value="7">Class 7</option>
+                                    <option value="8">Class 8</option>
+                                </select>
+                                <div class="text-danger" th:if="${#fields.hasErrors('studentClass')}" th:errors="*{studentClass}"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="mobileNumber" class="form-label">Mobile Number</label>
+                                <input type="tel" class="form-control" id="mobileNumber" th:field="*{mobileNumber}"
+                                       required placeholder="Enter mobile number"
+                                       pattern="[0-9]{10}">
+                                <div class="text-danger" th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a th:href="@{/students}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+</body>
+</html>
