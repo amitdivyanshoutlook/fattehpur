@@ -33,11 +33,7 @@ public class StudentService {
         Student student = getStudentById(id);
 
         student.setFirstName(studentDetails.getFirstName());
-        student.setLastName(studentDetails.getLastName());
-        student.setFatherName(studentDetails.getFatherName());
-        student.setVillageName(studentDetails.getVillageName());
-        student.setStudentClass(studentDetails.getStudentClass());
-        student.setMobileNumber(studentDetails.getMobileNumber());
+
 
         return studentRepository.save(student);
     }

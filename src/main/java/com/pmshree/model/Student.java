@@ -26,11 +26,18 @@ public class Student {
     private String firstName;
 
     @NotBlank(message = "Last name is required")
-    private String lastName;
+    private String gender;
 
+    private String dob;
+    private String admissionDate;
+    private String srNumber;
+    private String uniqueNumber;
+    private String motherName;
     private String fatherName;
-    private String villageName;
-    private String studentClass;
-    private Long mobileNumber;
+    private String ifscCode;
+    private String bankName;
+    private String branchName;
+    private String accountNumber;
+    private String aadharNumber;
 
 }
