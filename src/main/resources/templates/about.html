@@ -1,107 +1,162 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" data-bs-theme="light">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title th:text="${pageTitle ?: 'PM Shree - Home'}">Home - Brand</title>
+    <title>About Us - PM Shree</title>
     <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}">
-</head>
-<style>
-    .carousel-item {
-        height: 400px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .carousel-item img {
-        width: 100%;
-        height: auto;
-        position: absolute;
-        top: 0;  /* This ensures the image stays aligned to the top */
-        left: 0;
-        object-fit: cover;
-    }
-
-    /* Mobile-specific adjustments */
-    @media (max-width: 768px) {
-        .carousel-item {
-            height: 300px;
+    <style>
+        /* General styles */
+        .about-section {
+            padding-top: 76px; /* Height of navbar */
+            padding-bottom: 2rem;
         }
-    }
-</style>
 
+        /* Staff card styles */
+        .staff-card {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .staff-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive text */
+        @media (max-width: 768px) {
+            .about-text {
+                font-size: 0.9rem;
+            }
+
+            .staff-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .staff-card h5 {
+                font-size: 1rem;
+            }
+        }
+
+        /* Tablet view */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .staff-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        /* Desktop view */
+        @media (min-width: 992px) {
+            .staff-image {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        .staff-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .about-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+    </style>
+</head>
 
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-
-<style>
-    .carousel-item {
-        height: 400px;
-        position: relative;
-        overflow: hidden;
-        background-color: #f8f9fa; /* Light background for image loading */
-    }
-
-    .carousel-item img {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        object-fit: cover;
-        object-position: top; /* Ensures image is anchored to top */
-    }
-
-    /* Desktop styles */
-    @media (min-width: 1200px) {
-        .carousel-item {
-            height: 500px;
-        }
-    }
-
-    /* Tablet styles */
-    @media (min-width: 768px) and (max-width: 1199px) {
-        .carousel-item {
-            height: 400px;
-        }
-    }
-
-    /* Mobile styles */
-    @media (max-width: 768px) {
-        .carousel-item {
-            height: 250px;
-        }
-    }
-</style>
-
-<section class="portfolio-block block-intro">
+<section class="about-section">
     <div class="container">
-        <div class="w-100">
-            <img src="/assets/img/school_1.jpg"
-                 alt="School Image"
-                 loading="lazy"
-                 style="width: 100%; height: 100%; object-fit: cover; object-position: top;" />
+        <div class="about-header">
+            <h1 class="text-center mb-4">About Us</h1>
+            <div class="about-text">
+                <p class="lead text-center">The PM Shri composite school Bahlolpur is part of the Pradhan Mantri Schools for Rising India scheme, a centrally-sponsored initiative by the Government of India.</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <h4>Learning Environment</h4>
+                        <p>The school provides a comprehensive learning environment with a wide range of educational experiences.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Physical Infrastructure</h4>
+                        <p>We maintain excellent physical infrastructure and appropriate resources for all students.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Facilities</h4>
+                        <p>We offer free education, books, and provide Rs 1200 for shoes, socks, uniform, and other essentials.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="about-me">
-            <p>Hello! I am <strong>John Smith</strong>. I work as interface and front end developer. I have passion for pixel perfect, minimal and easy to use interfaces.</p>
+
+        <h2 class="text-center mb-4">Our Staff</h2>
+        <div class="row g-4">
+            <!-- Principal -->
+            <div class="col-sm-6 col-lg-4">
+                <div class="staff-card text-center">
+                    <img class="staff-image mx-auto d-block" th:src="@{/assets/img/Rajendra.jpg}" alt="Rajendra Singh">
+                    <h3 class="m-0">Rajendra Singh</h3>
+                    <h5 class="my-2">Principal</h5>
+                    <p class="staff-description">Leading our institution with vision and dedication to provide quality education.</p>
+                </div>
+            </div>
+
+            <!-- Assistant Teacher -->
+            <div class="col-sm-6 col-lg-4">
+                <div class="staff-card text-center">
+                    <img class="staff-image mx-auto d-block" th:src="@{/assets/img/Jitendra.jpg}" alt="Jitendra Kumar">
+                    <h3 class="m-0">Jitendra Kumar</h3>
+                    <h5 class="my-2">Assistant Teacher</h5>
+                    <p class="staff-description">Dedicated to nurturing young minds and fostering academic excellence.</p>
+                </div>
+            </div>
+
+            <!-- ARP -->
+            <div class="col-sm-6 col-lg-4">
+                <div class="staff-card text-center">
+                    <img class="staff-image mx-auto d-block" th:src="@{/assets/img/Saurabh.jpg}" alt="Saurabh Kumar Sharma">
+                    <h3 class="m-0">Saurabh Kumar Sharma</h3>
+                    <h5 class="my-2">Assistant Teacher (ARP)</h5>
+                    <p class="staff-description">Specializing in innovative teaching methods and student development.</p>
+                </div>
+            </div>
+
+            <!-- Anudeshika -->
+            <div class="col-sm-6 col-lg-4">
+                <div class="staff-card text-center">
+                    <img class="staff-image mx-auto d-block" th:src="@{/assets/img/Hemlata.jpg}" alt="Hemlata">
+                    <h3 class="m-0">Hemlata</h3>
+                    <h5 class="my-2">Anudeshika</h5>
+                    <p class="staff-description">Guiding students with care and expertise in their educational journey.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-</main>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-
-
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/assets/js/script.min.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
 </body>
+
 </html>

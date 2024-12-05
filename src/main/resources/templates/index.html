@@ -3,96 +3,168 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title th:text="${pageTitle ?: 'PM Shree - Home'}">Home - Brand</title>
+    <title th:text="${pageTitle ?: 'PM Shree - Home'}">Home - PM Shree</title>
     <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}">
-</head>
-<style>
-    .carousel-item {
-        height: 400px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .carousel-item img {
-        width: 100%;
-        height: auto;
-        position: absolute;
-        top: 0;  /* This ensures the image stays aligned to the top */
-        left: 0;
-        object-fit: cover;
-    }
-
-    /* Mobile-specific adjustments */
-    @media (max-width: 768px) {
-        .carousel-item {
-            height: 300px;
+    <style>
+        /* Global Styling */
+        body {
+            font-family: 'Arial', sans-serif;
         }
-    }
-</style>
 
+        main {
+            padding-top: 20px;
+        }
+
+        .carousel-item {
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Adjustments for mobile and tablet */
+        @media (max-width: 768px) {
+            .carousel-item {
+                height: 250px;
+            }
+            .block-intro img {
+                max-height: 300px;
+                object-fit: contain;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .block-intro img {
+                max-height: 200px;
+            }
+        }
+
+        .card.special-skill-item {
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card.special-skill-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-header i {
+            font-size: 2rem;
+            color: #0d6efd;
+        }
+
+        /* Carousel Navigation Customization */
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            filter: invert(100%);
+        }
+
+        .carousel-indicators [data-bs-target] {
+            background-color: #0d6efd;
+        }
+
+        .heading h2 {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Info Section Styling */
+        .info-section {
+            margin-bottom: 50px;
+        }
+
+        .info-section h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .info-section p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
 
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <!-- Main Content -->
 <main class="page">
-    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="500">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block" th:src="@{/assets/img/pmshrreschool.jpg}" alt="Image 1">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block" th:src="@{/assets/img/fit_india.jpg}" alt="Image 2">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block" th:src="@{/assets/img/school_1.jpg}" alt="Image 3">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block" th:src="@{/assets/img/school_2.jpg}" alt="Image 4">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block" th:src="@{/assets/img/shapath_1.jpg}" alt="Image 5">
-            </div>
-        </div>
-        <!-- Rest of your carousel controls remain the same -->
-    </div>
-
-
+    <section class="portfolio-block block-intro text-center">
+        <img class="img-fluid" th:src="@{/assets/img/pmshrreschool.jpg}" alt="PM Shree School">
+    </section>
 
     <!-- Info Section -->
-    <section>
+    <section class="info-section">
         <div class="container">
-            <div class="row">
-                <!-- School Info -->
+            <div class="row gy-4">
                 <div class="col-md-4">
-                    <div>
-                        <h1 class="h5" th:text="${schoolInfo?.name ?: 'PM Shree Bahlolpur'}">PM Shree Bahlolpur</h1>
+                    <h1>PM Shree Bahlolpur</h1>
+                    <p>The PM Shri composite school Bahlolpur is part of the Pradhan Mantri Schools for Rising India scheme. The school provides a nurturing environment with excellent infrastructure and facilities like free education, free books, and monetary aid for uniforms, shoes, and other essentials.</p>
+                </div>
+                <div class="col-md-4">
+                    <h1>Our Staff</h1>
+                    <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <img class="d-block" th:src="@{/assets/img/Jitendra.jpg}" alt="Jitendra">
+                            </div>
+                            <div class="carousel-item active">
+                                <img class="d-block" th:src="@{/assets/img/Hemlata.jpg}" alt="Hemlata">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block" th:src="@{/assets/img/Rajendra.jpg}" alt="Rajendra">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block" th:src="@{/assets/img/Saurabh.jpg}" alt="Saurabh">
+                            </div>
+                        </div>
+                        <!-- Navigation -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-1" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-1" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <p th:text="${schoolInfo?.description}">
-                        PM SHRI School is a centrally sponsored scheme by the Government of India...
-                    </p>
                 </div>
 
-                <!-- Notice Board -->
                 <div class="col-md-4">
-                    <div>
-                        <h1 class="h5">Notice Board</h1>
-                        <div th:if="${noticeBoard != null}">
-                            <img class="img-fluid image" th:src="@{${noticeBoard.imageUrl}}" alt="Notice Board">
+                    <h1>Quick Updates</h1>
+                    <div id="carousel-2" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <img class="d-block" th:src="@{/assets/img/update_1.jpg}" alt="Update 1">
+                            </div>
+                            <div class="carousel-item active">
+                                <img class="d-block" th:src="@{/assets/img/update_2.jpg}" alt="Update 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block" th:src="@{/assets/img/survey_3.jpg}" alt="Survey 3">
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Quick Updates -->
-                <div class="col">
-                    <div>
-                        <h1 class="h5">Quick Update</h1>
-                        <div th:if="${quickUpdates != null}">
-                            <img class="img-fluid image" th:src="@{${quickUpdates.imageUrl}}" alt="Quick Updates">
-                        </div>
+                        <!-- Navigation -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-2" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-2" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -103,18 +175,18 @@
     <section class="portfolio-block skills">
         <div class="container">
             <div class="heading">
-                <h2 th:text="${skillsHeading ?: 'SKILL DEVELOPMENTS PROGRAMME'}">SKILL DEVELOPMENTS PROGRAMME</h2>
+                <h2>Skill Development Programme</h2>
             </div>
-            <div class="row">
-                <!-- Skill Cards -->
-                <div th:each="skill : ${skills}" class="col-md-4">
-                    <div class="card special-skill-item border-0">
-                        <div class="card-header bg-transparent border-0">
+            <div class="row g-4">
+                <!-- Dynamic Skill Cards -->
+                <div th:each="skill : ${skills}" class="col-lg-4 col-md-6">
+                    <div class="card special-skill-item">
+                        <div class="card-header">
                             <i th:class="${skill.iconClass}" data-bss-hover-animate="bounce"></i>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title" th:text="${skill.title}">Skill Title</h3>
-                            <p class="card-text" th:text="${skill.description}">Skill description</p>
+                            <h3 th:text="${skill.title}">Skill Title</h3>
+                            <p th:text="${skill.description}">Skill description</p>
                         </div>
                     </div>
                 </div>
@@ -125,12 +197,8 @@
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-
-
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/assets/js/script.min.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
