@@ -24,18 +24,17 @@ public class SecurityConfig {
                         // Static resources
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/assets/**", "/vendor/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
-                        .requestMatchers("/resources/**").permitAll()
-                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/resources/**", "/static/**", "/error", "/error/**").permitAll()
                         // Public pages
                         .requestMatchers("/", "/index", "/about", "/contact").permitAll()
                         // Protected pages
-                        .requestMatchers("/home","/students/**").authenticated()
+                        .requestMatchers("/home", "/students/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/home", true) // Force /home as the redirect URL
                         .permitAll()
                 )
                 .logout(logout -> logout
