@@ -39,5 +39,6 @@ public class Student {
     private String branchName;
     private String accountNumber;
     private String aadharNumber;
+    private String className;
 
 }

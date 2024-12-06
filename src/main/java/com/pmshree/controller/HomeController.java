@@ -37,9 +37,9 @@ public class HomeController {
 
         // Skills Section
         List<Skill> skills = Arrays.asList(
-                new Skill("Nipun Bharat", "Description here...", "icon ion-ios-star-outline"),
-                new Skill("Learning By Doing", "Description here...", "icon ion-ios-lightbulb-outline"),
-                new Skill("NEP 2020", "Description here...", "icon ion-ios-gear-outline")
+                new Skill("Nipun Bharat", "Nipun Bharat is a transformational initiative aimed at ensuring foundational literacy and numeracy for every child in India by Grade 3. It builds the foundation for lifelong learning as envisioned by NEP 2020.", "icon ion-ios-star-outline"),
+                new Skill("Learning By Doing", "Learning by Doing emphasizes hands-on experiences and active participation to develop a deeper understanding of concepts. This approach encourages creativity, problem-solving, and critical thinking, making education more engaging and effective.", "icon ion-ios-lightbulb-outline"),
+                new Skill("NEP 2020", "The National Education Policy (NEP) 2020 is a visionary framework aimed at transforming India's education system. It focuses on holistic, flexible, and multidisciplinary learning, emphasizing foundational literacy, skill development, and equitable access to quality education for all.", "icon ion-ios-gear-outline")
         );
         model.addAttribute("skills", skills);
 
