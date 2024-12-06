@@ -13,10 +13,7 @@
     <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}">
     <style>
         /* General styles */
-        .about-section {
-            padding-top: 76px; /* Height of navbar */
-            padding-bottom: 2rem;
-        }
+
 
         /* Staff card styles */
         .staff-card {
@@ -40,48 +37,8 @@
             margin-bottom: 1rem;
         }
 
-        /* Responsive text */
-        @media (max-width: 768px) {
-            .about-text {
-                font-size: 0.9rem;
-            }
 
-            .staff-card h3 {
-                font-size: 1.2rem;
-            }
 
-            .staff-card h5 {
-                font-size: 1rem;
-            }
-        }
-
-        /* Tablet view */
-        @media (min-width: 768px) and (max-width: 991.98px) {
-            .staff-image {
-                width: 150px;
-                height: 150px;
-            }
-        }
-
-        /* Desktop view */
-        @media (min-width: 992px) {
-            .staff-image {
-                width: 200px;
-                height: 200px;
-            }
-        }
-
-        .staff-description {
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-
-        .about-header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #eee;
-        }
     </style>
 </head>
 
@@ -159,6 +116,7 @@
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/script.min.js}"></script>
 </body>
 
 </html>

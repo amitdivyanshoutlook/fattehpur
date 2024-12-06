@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -19,37 +20,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity
                 .authorizeHttpRequests(auth -> auth
-                        // Static resources
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/assets/**", "/vendor/**").permitAll()
-                        .requestMatchers("/webjars/**").permitAll()
-                        .requestMatchers("/resources/**", "/static/**", "/error", "/error/**").permitAll()
-                        // Public pages
+                        // Permit all static resources without security checks
+                        .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**", "/vendor/**", "/webjars/**").permitAll()
+                        // Permit error pages
+                        .requestMatchers("/error", "/error/**").permitAll()
+                        // Publicly accessible pages
                         .requestMatchers("/", "/index", "/about", "/contact").permitAll()
-                        // Protected pages
+                        // Secured pages
                         .requestMatchers("/home", "/students/**").authenticated()
+                        // Any other requests must be authenticated
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/home", true) // Force /home as the redirect URL
+                        .loginPage("/login") // Custom login page
+                        .loginProcessingUrl("/login") // Endpoint for form submission
+                        .defaultSuccessUrl("/home", true) // Force redirect to /home after login
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true) // Invalidate session on logout
+                        .deleteCookies("JSESSIONID") // Clear session cookies
                         .clearAuthentication(true)
                         .permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .invalidSessionUrl("/login?expired")
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Create sessions as needed
+                        .invalidSessionUrl("/login?expired") // Redirect if session is invalid
+                        .maximumSessions(1) // Limit concurrent sessions per user
+                        .maxSessionsPreventsLogin(false) // Allow previous session to expire if new session is created
                 );
 
         return http.build();
