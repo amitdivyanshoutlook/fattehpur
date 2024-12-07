@@ -11,6 +11,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/students")
 public class StudentController {
@@ -60,6 +64,31 @@ public class StudentController {
         }
 
         return "redirect:/students";
+    }
+
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model) {
+        List<Student> students = studentService.getAllStudents();
+        
+        // Calculate total students
+        model.addAttribute("totalStudents", students.size());
+        
+        // Calculate class distribution
+        Map<String, Long> classDistribution = students.stream()
+            .collect(Collectors.groupingBy(Student::getClassName, Collectors.counting()));
+        model.addAttribute("classDistribution", classDistribution);
+        
+        // Calculate average class size
+        double avgClassSize = classDistribution.isEmpty() ? 0 : 
+            students.size() / (double) classDistribution.size();
+        model.addAttribute("averageClassSize", String.format("%.1f", avgClassSize));
+        
+        // Calculate gender ratio
+        Map<String, Long> genderRatio = students.stream()
+            .collect(Collectors.groupingBy(Student::getGender, Collectors.counting()));
+        model.addAttribute("genderRatio", genderRatio);
+        
+        return "student-dashboard";
     }
 
     @GetMapping("/delete/{id}")
