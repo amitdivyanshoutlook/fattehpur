@@ -13,20 +13,85 @@
     <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}">
     <style>
         /* General styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
 
+        .about-section {
+            padding: 80px 4rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .about-header {
+        padding: 20px
+            margin-bottom: 3rem;
+        }
+
+        .about-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .about-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #007bff;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .feature-box h4 {
+            color: #007bff;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
 
         /* Staff card styles */
         .staff-card {
             margin-bottom: 2rem;
-            padding: 1.5rem;
+            padding: 2rem;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .staff-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #007bff, #00ff88);
         }
 
         .staff-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .staff-image {
@@ -34,11 +99,69 @@
             height: 200px;
             object-fit: cover;
             border-radius: 50%;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            border: 5px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
+        .staff-card:hover .staff-image {
+            transform: scale(1.05);
+        }
 
+        .staff-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
 
+        .staff-card h5 {
+            color: #007bff;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .staff-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .about-section {
+                padding: 2rem 0;
+            }
+
+            .about-header h1 {
+                font-size: 2rem;
+            }
+
+            .staff-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .feature-box {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-delay-1 { animation-delay: 0.2s; }
+        .animate-delay-2 { animation-delay: 0.4s; }
+        .animate-delay-3 { animation-delay: 0.6s; }
     </style>
 </head>
 
@@ -71,6 +194,15 @@
 
         <h2 class="text-center mb-4">Our Staff</h2>
         <div class="row g-4">
+            <!-- ARP -->
+            <div class="col-sm-6 col-lg-4">
+                <div class="staff-card text-center">
+                    <img class="staff-image mx-auto d-block" th:src="@{/assets/img/Saurabh.jpg}" alt="Saurabh Kumar Sharma">
+                    <h3 class="m-0">Saurabh Kumar Sharma</h3>
+                    <h5 class="my-2">Assistant Teacher (ARP)</h5>
+                    <p class="staff-description">Specializing in innovative teaching methods and student development.</p>
+                </div>
+            </div>
             <!-- Principal -->
             <div class="col-sm-6 col-lg-4">
                 <div class="staff-card text-center">
@@ -91,15 +223,6 @@
                 </div>
             </div>
 
-            <!-- ARP -->
-            <div class="col-sm-6 col-lg-4">
-                <div class="staff-card text-center">
-                    <img class="staff-image mx-auto d-block" th:src="@{/assets/img/Saurabh.jpg}" alt="Saurabh Kumar Sharma">
-                    <h3 class="m-0">Saurabh Kumar Sharma</h3>
-                    <h5 class="my-2">Assistant Teacher (ARP)</h5>
-                    <p class="staff-description">Specializing in innovative teaching methods and student development.</p>
-                </div>
-            </div>
 
             <!-- Anudeshika -->
             <div class="col-sm-6 col-lg-4">
