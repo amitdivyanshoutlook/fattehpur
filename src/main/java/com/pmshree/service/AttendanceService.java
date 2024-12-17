@@ -1,6 +1,13 @@
 package com.pmshree.service;
 
 import com.pmshree.model.Attendance;
+import com.pmshree.model.AttendanceStats;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import com.pmshree.model.AttendanceStats;
+import java.util.HashMap;
+import java.util.Map;
 import com.pmshree.model.Student;
 import com.pmshree.model.Teacher;
 import com.pmshree.repository.AttendanceRepository;
@@ -20,6 +27,30 @@ public class AttendanceService {
     
     @Autowired
     private StudentRepository studentRepository;
+
+    private List<AttendanceStats> getAttendanceStatsForDateRange(LocalDate startDate, LocalDate endDate, String className) {
+        List<Attendance> attendanceList = attendanceRepository.findByDateBetweenAndClassName(startDate, endDate, className);
+        return calculateAttendanceStats(attendanceList);
+    }
+
+    public List<AttendanceStats> getWeeklyAttendance(LocalDate date, String className) {
+        LocalDate weekStart = date.minusDays(date.getDayOfWeek().getValue() - 1);
+        LocalDate weekEnd = weekStart.plusDays(6);
+        return getAttendanceStatsForDateRange(weekStart, weekEnd, className);
+    }
+
+    public List<AttendanceStats> getMonthlyAttendance(LocalDate date, String className) {
+        LocalDate monthStart = date.withDayOfMonth(1);
+        LocalDate monthEnd = date.withDayOfMonth(date.lengthOfMonth());
+        return getAttendanceStatsForDateRange(monthStart, monthEnd, className);
+    }
+
+    public List<AttendanceStats> getYearlyAttendance(String academicYear, String className) {
+        String[] years = academicYear.split("-");
+        LocalDate yearStart = LocalDate.of(Integer.parseInt("20" + years[0]), 6, 1);
+        LocalDate yearEnd = LocalDate.of(Integer.parseInt("20" + years[1]), 5, 31);
+        return getAttendanceStatsForDateRange(yearStart, yearEnd, className);
+    }
 
     public List<Attendance> getAttendanceByDateAndClass(LocalDate date, String className) {
         return attendanceRepository.findByDateAndClassName(date, className);
@@ -53,6 +84,23 @@ public class AttendanceService {
         else {
             return attendanceList;
         }
+    }
+
+    private List<AttendanceStats> calculateAttendanceStats(List<Attendance> attendanceList) {
+        Map<Long, AttendanceStats> statsMap = new HashMap<>();
+        
+        for (Attendance attendance : attendanceList) {
+            Long studentId = attendance.getStudent().getId();
+            AttendanceStats stats = statsMap.computeIfAbsent(studentId,
+                    k -> new AttendanceStats(attendance.getStudent()));
+            
+            stats.incrementTotalDays();
+            if (attendance.isPresent()) {
+                stats.incrementPresentDays();
+            }
+        }
+        
+        return new ArrayList<>(statsMap.values());
     }
 
     public void saveAttendance(List<Attendance> attendanceList) {
