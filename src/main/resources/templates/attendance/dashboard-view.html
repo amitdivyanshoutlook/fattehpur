@@ -2,84 +2,267 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance View</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --danger-color: #e74a3b;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fc 0%, #f1f3f9 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(78, 115, 223, 0.98) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid #e3e6f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), #6610f2);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th {
+            background-color: #f8f9fc;
+            border-bottom: 2px solid #e3e6f0;
+            font-weight: 600;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .text-success {
+            color: var(--success-color) !important;
+        }
+
+        .text-danger {
+            color: var(--danger-color) !important;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                margin: 10px;
+            }
+
+            .table-responsive {
+                border-radius: 10px;
+            }
+        }
+
+        .attendance-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .status-present {
+            background-color: rgba(28, 200, 138, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-absent {
+            background-color: rgba(231, 74, 59, 0.1);
+            color: var(--danger-color);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <span class="navbar-brand">Attendance View</span>
-            <div class="navbar-nav ms-auto">
-                <a th:href="@{/attendance-dashboard}" class="nav-link"><i class="fas fa-arrow-left me-1"></i>Back</a>
-                <a th:href="@{/home}" class="nav-link"><i class="fas fa-home me-1"></i>Home</a>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark" data-aos="fade-down">
+    <div class="container-fluid">
+            <span class="navbar-brand">
+                <i class="fas fa-clipboard-check me-2"></i>
+                Attendance View
+            </span>
+        <div class="navbar-nav ms-auto">
+            <a th:href="@{/attendance-dashboard}" class="nav-link">
+                <i class="fas fa-arrow-left me-1"></i>Back
+            </a>
+            <a th:href="@{/home}" class="nav-link">
+                <i class="fas fa-home me-1"></i>Home
+            </a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class="container mt-4">
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <h5>Academic Year</h5>
-                        <p th:text="${academicYear}">2023-24</p>
+<div class="container mt-4">
+    <div class="card" data-aos="fade-up" data-aos-duration="1000">
+        <div class="card-body">
+            <h3 class="card-title mb-4">
+                <i class="fas fa-search me-2 text-primary"></i>
+                Attendance Analysis
+            </h3>
+            <form th:action="@{/attendance-dashboard/view}" method="get" class="mt-4">
+                <div class="row g-3">
+                    <div class="col-md-4" data-aos="fade-right" data-aos-delay="200">
+                        <div class="form-group">
+                            <label class="form-label" for="academicYear">
+                                <i class="fas fa-calendar-alt me-2"></i>Academic Year
+                            </label>
+                            <select class="form-select" id="academicYear" name="academicYear" required>
+                                <option value="">Select Academic Year</option>
+                                <option th:each="year : ${academicYears}"
+                                        th:value="${year}"
+                                        th:text="${year}">
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <h5>Class</h5>
-                        <p th:text="${selectedClass}">Class</p>
+                    <div class="col-md-4" data-aos="fade-right" data-aos-delay="400">
+                        <div class="form-group">
+                            <label class="form-label" for="className">
+                                <i class="fas fa-graduation-cap me-2"></i>Class
+                            </label>
+                            <select class="form-select" id="className" name="className" required>
+                                <option value="">Select Class</option>
+                                <option th:each="class : ${classes}"
+                                        th:value="${class}"
+                                        th:text="${class}">
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <h5>Date</h5>
-                        <p th:text="${#temporals.format(selectedDate, 'dd-MM-yyyy')}">Date</p>
-                    </div>
-                    <div class="col-md-3">
-                        <h5>View Type</h5>
-                        <p th:text="${viewType}">Daily</p>
+                    <div class="col-md-4" data-aos="fade-right" data-aos-delay="600">
+                        <div class="form-group">
+                            <label class="form-label" for="date">
+                                <i class="fas fa-calendar-day me-2"></i>Date
+                            </label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>SR Number</th>
-                                <th>Student Name</th>
-                                <th th:if="${viewType == 'daily'}">Status</th>
-                                <th th:if="${viewType != 'daily'}">Present Days</th>
-                                <th th:if="${viewType != 'daily'}">Total Days</th>
-                                <th th:if="${viewType != 'daily'}">Attendance %</th>
-                                <th>Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="attendance : ${attendanceData}">
-                                <td th:text="${attendance.student.srNumber}">SR001</td>
-                                <td th:text="${attendance.student.firstName}">John</td>
-                                <td th:if="${viewType == 'daily'}" 
-                                    th:text="${attendance.present ? 'Present' : 'Absent'}"
-                                    th:class="${attendance.present ? 'text-success' : 'text-danger'}">
-                                    Present
-                                </td>
-                                <td th:if="${viewType != 'daily' and attendance instanceof T(com.pmshree.model.AttendanceStats)}" 
-                                    th:text="${attendance.presentDays}">20</td>
-                                <td th:if="${viewType != 'daily' and attendance instanceof T(com.pmshree.model.AttendanceStats)}" 
-                                    th:text="${attendance.totalDays}">25</td>
-                                <td th:if="${viewType != 'daily' and attendance instanceof T(com.pmshree.model.AttendanceStats)}" 
-                                    th:text="${#numbers.formatDecimal(attendance.attendancePercentage, 1, 2) + '%'}">80.00%</td>
-                                <td th:text="${attendance instanceof T(com.pmshree.model.AttendanceStats) ? '' : attendance.remarks}">Good</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="800">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>View Attendance
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="card" data-aos="fade-up" data-aos-delay="1000">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>SR Number</th>
+                        <th>Student Name</th>
+                        <th th:if="${viewType == 'daily'}">Status</th>
+                        <th th:if="${viewType != 'daily'}">Present Days</th>
+                        <th th:if="${viewType != 'daily'}">Total Days</th>
+                        <th th:if="${viewType != 'daily'}">Attendance %</th>
+                        <th>Remarks</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="attendance : ${attendanceData}"
+                        data-aos="fade-up"
+                        th:data-aos-delay="${attendanceStat.index * 100}">
+                        <td th:text="${attendance.student.srNumber}">SR001</td>
+                        <td th:text="${attendance.student.firstName}">John</td>
+                        <td th:if="${viewType == 'daily'}" >
+                                    <span th:text="${attendance.present ? 'Present' : 'Absent'}"
+                                          th:class="${'attendance-status ' + (attendance.present ? 'status-present' : 'status-absent')}">
+                                    </span>
+                        </td>
+                        <td th:if="${viewType != 'daily' and attendance instanceof T(com.pmshree.model.AttendanceStats)}"
+                            th:text="${attendance.presentDays}">20</td>
+                        <td th:if="${viewType != 'daily' and attendance instanceof T(com.pmshree.model.AttendanceStats)}"
+                            th:text="${attendance.totalDays}">25</td>
+                        <td th:if="${viewType != 'daily' and attendance instanceof T(com.pmshree.model.AttendanceStats)}"
+                            th:text="${#numbers.formatDecimal(attendance.attendancePercentage, 1, 2) + '%'}">80.00%</td>
+                        <td th:text="${attendance instanceof T(com.pmshree.model.AttendanceStats) ? '' : attendance.remarks}">Good</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+    });
+
+    // Form submission animation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = this.querySelector('button[type="submit"]');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Loading...';
+        btn.disabled = true;
+    });
+
+    // Dynamic form control animations
+    document.querySelectorAll('.form-control, .form-select').forEach(element => {
+        element.addEventListener('focus', function() {
+            this.closest('.form-group').style.transform = 'translateY(-2px)';
+        });
+
+        element.addEventListener('blur', function() {
+            this.closest('.form-group').style.transform = 'translateY(0)';
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

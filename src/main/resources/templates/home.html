@@ -178,10 +178,30 @@
 
 
         <div class="collapse navbar-collapse" id="navbarNav">
+
+
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/students">
+                        <i class="fas fa-users me-2"></i>Student Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teachers">
+                        <i class="fas fa-users me-2"></i>Faculty Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/attendance">
+                        <i class="fas fa-users me-2"></i>Attandance Management
+                    </a>
+                </li>
+                <!-- Add more navigation items here -->
+            </ul>
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/students/dashboard">
-                        <i class="fas fa-users me-2"></i>Dashboard
+                        <i class="fas fa-users me-2"></i>Student Dashboard
                     </a>
                 </li>
                 <!-- Add more navigation items here -->
@@ -194,30 +214,8 @@
                 </li>
                 <!-- Add more navigation items here -->
             </ul>
-
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/students">
-                        <i class="fas fa-users me-2"></i>Students
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/teachers">
-                        <i class="fas fa-users me-2"></i>Teachers
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/attendance">
-                        <i class="fas fa-users me-2"></i>Attandance
-                    </a>
-                </li>
-                <!-- Add more navigation items here -->
-            </ul>
             <div class="d-flex align-items-center">
-                    <span class="text-white me-3" sec:authorize="isAuthenticated()">
-                        <i class="fas fa-user-circle me-2"></i>
-                        Welcome, <span th:text="${username}">User</span>!
-                    </span>
+
                 <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                     <button type="submit" class="btn logout-btn">
                         <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -257,10 +255,10 @@
                     <div class="feature-icon">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </div>
-                    <h3 class="card-title">Class Management</h3>
-                    <p class="card-text">Organize classes, sections, and academic schedules.</p>
-                    <a href="#" class="btn btn-custom">
-                        <i class="fas fa-arrow-right me-2"></i>Coming Soon
+                    <h3 class="card-title">Faculty Management</h3>
+                    <p class="card-text">Organize teachers, and their related info.</p>
+                    <a href="/teachers" class="btn btn-custom">
+                        <i class="fas fa-arrow-right me-2"></i>Access Now
                     </a>
                 </div>
             </div>
@@ -272,14 +270,45 @@
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3 class="card-title">Reports</h3>
-                    <p class="card-text">Generate and analyze various school reports and statistics.</p>
-                    <a href="#" class="btn btn-custom">
-                        <i class="fas fa-arrow-right me-2"></i>Coming Soon
+                    <h3 class="card-title">Attendance Management</h3>
+                    <p class="card-text">Mark attendance basis of class and date</p>
+                    <a href="/attendance" class="btn btn-custom">
+                        <i class="fas fa-arrow-right me-2"></i>Access Now
                     </a>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-4 animate-fade-up" style="animation-delay: 0.6s">
+            <div class="feature-card">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="card-title">Student Dashboard</h3>
+                    <p class="card-text">View students and related information in visual form</p>
+                    <a href="students/dashboard" class="btn btn-custom">
+                        <i class="fas fa-arrow-right me-2"></i>Access Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 animate-fade-up" style="animation-delay: 0.6s">
+            <div class="feature-card">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="card-title">Attendance Dashboard</h3>
+                    <p class="card-text">View attendance on the basis of academic year, class and date</p>
+                    <a href="/attendance-dashboard" class="btn btn-custom">
+                        <i class="fas fa-arrow-right me-2"></i>Access Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

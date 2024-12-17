@@ -2,6 +2,7 @@ package com.pmshree.controller;
 
 import com.pmshree.model.Attendance;
 import com.pmshree.model.AttendanceStats;
+import com.pmshree.repository.StudentRepository;
 import com.pmshree.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,10 +22,15 @@ public class AttendanceDashboardController {
     @Autowired
     private AttendanceService attendanceService;
 
+    @Autowired
+    private  StudentRepository studentRepository;
+
     @GetMapping
     public String showDashboard(Model model) {
         // Add current year and available academic years
         model.addAttribute("currentYear", LocalDate.now().getYear());
+
+        model.addAttribute("classes", studentRepository.findAllUniqueClasses());
         model.addAttribute("academicYears", List.of("2023-24", "2022-23", "2021-22"));
         return "attendance/dashboard";
     }
@@ -63,6 +69,10 @@ public class AttendanceDashboardController {
         model.addAttribute("selectedClass", className);
         model.addAttribute("academicYear", academicYear);
         model.addAttribute("viewType", viewType);
+        model.addAttribute("currentYear", LocalDate.now().getYear());
+
+        model.addAttribute("classes", studentRepository.findAllUniqueClasses());
+        model.addAttribute("academicYears", List.of("2023-24", "2022-23", "2021-22"));
         
         return "attendance/dashboard-view";
     }

@@ -2,76 +2,192 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(13, 110, 253, 0.95) !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+            border-color: #0d6efd;
+        }
+        .btn-primary {
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #0d6efd, #0099ff);
+            border: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+            background: linear-gradient(45deg, #0099ff, #0d6efd);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #344767;
+        }
+        .floating-label {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .floating-label label {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: white;
+            padding: 0 5px;
+            font-size: 0.85rem;
+            color: #0d6efd;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            .card {
+                margin: 10px 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <span class="navbar-brand">Attendance Dashboard</span>
-            <div class="navbar-nav ms-auto">
-                <a th:href="@{/home}" class="nav-link"><i class="fas fa-home me-1"></i>Home</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Attendance Analysis</h3>
-                <form th:action="@{/attendance-dashboard/view}" method="get" class="mt-4">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="academicYear">Academic Year</label>
-                                <select class="form-control" id="academicYear" name="academicYear" required>
-                                    <option value="">Select Academic Year</option>
-                                    <option th:each="year : ${academicYears}" 
-                                            th:value="${year}" 
-                                            th:text="${year}">2023-24</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="className">Class</label>
-                                <select class="form-control" id="className" name="className" required>
-                                    <option value="">Select Class</option>
-                                    <option value="1">Class 1</option>
-                                    <option value="2">Class 2</option>
-                                    <option value="3">Class 3</option>
-                                    <option value="4">Class 4</option>
-                                    <option value="5">Class 5</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="date" class="form-control" id="date" name="date" required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="viewType">View Type</label>
-                                <select class="form-control" id="viewType" name="viewType">
-                                    <option value="daily">Daily</option>
-                                    <option value="weekly">Weekly</option>
-                                    <option value="monthly">Monthly</option>
-                                    <option value="yearly">Yearly</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary">View Attendance</button>
-                    </div>
-                </form>
-            </div>
+<!-- Navbar with animation -->
+<nav class="navbar navbar-expand-lg navbar-dark" data-aos="fade-down">
+    <div class="container-fluid">
+            <span class="navbar-brand">
+                <i class="fas fa-chart-line me-2"></i>
+                Attendance Dashboard
+            </span>
+        <div class="navbar-nav ms-auto">
+            <a th:href="@{/home}" class="nav-link">
+                <i class="fas fa-home me-1"></i>Home
+            </a>
         </div>
     </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container mt-4">
+    <!-- Main Card with animation -->
+    <div class="card" data-aos="fade-up">
+        <div class="card-body">
+            <h3 class="card-title mb-4">
+                <i class="fas fa-calendar-check me-2 text-primary"></i>
+                Attendance Analysis
+            </h3>
+
+            <form th:action="@{/attendance-dashboard/view}" method="get" class="mt-4">
+                <div class="row">
+                    <!-- Academic Year Select -->
+                    <div class="col-md-4 col-sm-6" data-aos="fade-right" data-aos-delay="100">
+                        <div class="floating-label">
+                            <label for="academicYear">Academic Year</label>
+                            <select class="form-select" id="academicYear" name="academicYear" required>
+                                <option value="">Select Academic Year</option>
+                                <option th:each="year : ${academicYears}"
+                                        th:value="${year}"
+                                        th:text="${year}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Class Select -->
+                    <div class="col-md-4 col-sm-6" data-aos="fade-right" data-aos-delay="200">
+                        <div class="floating-label">
+                            <label for="className">Class</label>
+                            <select class="form-select" id="className" name="className" required>
+                                <option value="">Select Class</option>
+                                <option th:each="class : ${classes}"
+                                        th:value="${class}"
+                                        th:text="${class}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Date Input -->
+                    <div class="col-md-4 col-sm-6" data-aos="fade-right" data-aos-delay="300">
+                        <div class="floating-label">
+                            <label for="date">Select Date</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="400">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>
+                        View Attendance
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS animation library
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+
+    // Add loading animation to form submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = this.querySelector('button[type="submit"]');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Loading...';
+        btn.disabled = true;
+    });
+
+    // Add smooth transitions to form controls
+    document.querySelectorAll('.form-control, .form-select').forEach(element => {
+        element.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'translateY(-2px)';
+        });
+
+        element.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+    });
+</script>
 </body>
 </html>
